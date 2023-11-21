@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="somePythonTemplate" name="Some Python Template">
+        <t t-call="website.layout">
+            <div class="container">
+                <div class="row py-5">
+                    <div class="col">
+                        <h1>QWEB Tutorials</h1>
+                        <br/>
+
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="basics-tab" data-bs-toggle="tab"
+                                        data-bs-target="#basics-tab-pane" type="button" role="tab"
+                                        aria-controls="basics-tab-pane" aria-selected="true">Basics
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="attributes-tab" data-bs-toggle="tab"
+                                        data-bs-target="#attributes-tab-pane" type="button" role="tab"
+                                        aria-controls="attributes-tab-pane" aria-selected="true">Attributes
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="subtemplates-tab" data-bs-toggle="tab"
+                                        data-bs-target="#subtemplates-tab-pane" type="button" role="tab"
+                                        aria-controls="subtemplates-tab-pane" aria-selected="true">Sub-Templates
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="security-tab" data-bs-toggle="tab"
+                                        data-bs-target="#security-tab-pane" type="button" role="tab"
+                                        aria-controls="security-tab-pane" aria-selected="true">Security
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <!-- Basics -->
+                            <div class="tab-pane fade show" id="basics-tab-pane" role="tabpanel"
+                                 aria-labelledby="basics-tab" tabindex="0">
+                                <h3 class="py-3">Data Output</h3>
+                                <table class="table table-striped table-sm border">
+                                    <tbody>
+                                        <tr>
+                                            <th>String</th>
+                                            <td>
+                                                <span t-out="string"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Integer</th>
+                                            <td>
+                                                <span t-out="integer"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Float</th>
+                                            <td>
+                                                <span t-out="some_float"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>List</th>
+                                            <td>
+                                                <span t-out="some_list"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>List Item</th>
+                                            <td>
+                                                <span t-out="some_list[0]"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Dictionary</th>
+                                            <td>
+                                                <span t-out="some_dict"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Dictionary Item</th>
+                                            <td>any_key value is :
+                                                <span t-out="some_dict['any_key']"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Function</th>
+                                            <td>
+                                                <span t-out="some_function"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Python Objects Ex. Datetime</th>
+                                            <td>
+                                                <span t-out="datetime.datetime.now()"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Model</th>
+                                            <td>
+                                                <span t-out="model"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Model Field</th>
+                                            <td>
+                                                <span t-out="model[0].name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Editable Model Field</th>
+                                            <td>
+                                                <span t-field="model[0].name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Model Field with Options</th>
+                                            <td>
+                                                <span t-field="model[0].date_order"
+                                                      t-options='{"widget": "datetime", "date_only": True}'/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h3 class="py-3">Setting Variables</h3>
+                                <t t-set="string_value" t-value="'Some Variable'"/>
+                                <t t-set="string_literals_value" t-valuef="Some Literal Variable - {{ string }}"/>
+                                <t t-set="expression_value" t-value="1+1"/>
+                                <t t-set="python_object_value" t-value="datetime.datetime.now()"/>
+                                <t t-set="from_controller_value" t-value="model"/>
+                                <t t-set="html_value">
+                                    <div class="alert alert-info">
+                                        <h3>This is an HTML Value</h3>
+                                        <p>Add any text here.</p>
+                                    </div>
+                                </t>
+                                <table class="table table-striped table-sm border">
+                                    <tbody>
+                                        <tr>
+                                            <th>String</th>
+                                            <td>
+                                                <span t-out="string_value"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>String Literals</th>
+                                            <td>
+                                                <span t-out="string_literals_value"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Expression</th>
+                                            <td>
+                                                <span t-out="expression_value"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Python Object</th>
+                                            <td>
+                                                <span t-out="python_object_value"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>From Controller</th>
+                                            <td>
+                                                <span t-out="from_controller_value"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>HTML</th>
+                                            <td>
+                                                <span t-out="html_value"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h3 class="py-3">Conditional</h3>
+                                <table class="table table-striped table-sm border">
+                                    <tbody>
+                                        <tr>
+                                            <th>Is logged-in?</th>
+                                            <td>
+                                                <span t-if="request.session.uid">Yes</span>
+                                                <span t-else="">No</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Multiple Conditions</th>
+                                            <td>
+                                                <span t-if="user_id.login == 'public'">Public User</span>
+                                                <span t-elif="user_id.login == 'admin'">Admin User</span>
+                                                <span t-elif="user_id.login == 'portal'">Portal User</span>
+                                                <span t-else="">Other User</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h3 class="py-3">Looping</h3>
+                                <table class="table table-striped table-sm border">
+                                    <tbody>
+                                        <tr>
+                                            <th>Static</th>
+                                            <td>
+                                                <ul>
+                                                    <li t-foreach="[1,2,3]" t-as="number">
+                                                        <span t-out="number"/>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Function</th>
+                                            <td>
+                                                <ul>
+                                                    <t t-set="list_length" t-value="0"/>
+                                                    <li t-foreach="range(10)" t-as="number">
+                                                        <span t-out="number_index + 1"/>
+                                                        <span class="text-success" t-if="number_first">First Element</span>
+                                                        <span class="text-success" t-if="number_last">Last Element </span>
+                                                        <span t-if="number_odd">Odd Element</span>
+                                                        <span class="text-muted" t-if="number_even">Odd Element</span>
+                                                        <t t-set="list_length" t-value="number_size"/>
+                                                    </li>
+                                                </ul>
+
+                                                <p>List length:<span t-out="list_length"/></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Model</th>
+                                            <td>
+                                                <ul>
+                                                    <li t-foreach="model" t-as="field">
+                                                        <span t-out="field.name"/>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Attributes -->
+                            <div class="tab-pane fade show" id="attributes-tab-pane" role="tabpanel"
+                                 aria-labelledby="attributes-tab" tabindex="0">
+                                <h3 class="py-3">Attributes</h3>
+                                <table class="table table-striped table-sm border">
+                                    <tbody>
+                                        <tr>
+                                            <th>Expression</th>
+                                            <td>
+                                                <p>Website:
+                                                    <a t-att-href="user_id.partner_id.website">
+                                                        <span t-out="user_id.partner_id.website"/>
+                                                    </a>
+                                                </p>
+                                                <p>Email:
+                                                    <a t-att-href="'mailto:%s' % user_id.partner_id.email">
+                                                        <span t-out="user_id.partner_id.email"/>
+                                                    </a>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Literals</th>
+                                            <td>
+                                                <p>Email:
+                                                    <a t-attf-href="mailto:{{ user_id.partner_id.email }}">
+                                                        <span t-out="user_id.partner_id.email"/>
+                                                    </a>
+                                                </p>
+                                                <p>Email:
+                                                    <a t-attf-href="mailto:#{ user_id.partner_id.email }">
+                                                        <span t-out="user_id.partner_id.email"/>
+                                                    </a>
+                                                </p>
+
+                                                <button t-attf-class="btn {{ 'btn-info' if request.session.uid else 'btn-danger'}}">Status</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Mapping</th>
+                                            <td>
+                                                <p>
+                                                    Website:
+                                                    <a t-att="{
+                                                        'href': user_id.partner_id.website,
+                                                        'title': '%s Website' % user_id.partner_id.name
+                                                    }">
+                                                        <span t-out="user_id.partner_id.website"/>
+                                                    </a>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Pairing</th>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" disabled="disabled" t-att="[('checked' if request.session.uid else ''), 'checked']"/>
+                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                    Is logged-in?
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Sub-Templates -->
+                            <div class="tab-pane fade show" id="subtemplates-tab-pane" role="tabpanel"
+                                 aria-labelledby="subtemplates-tab" tabindex="0">
+                                <h3 class="py-3">Sub-Templates</h3>
+                                <table class="table table-striped table-sm border">
+                                    <tbody>
+                                        <tr>
+                                            <th>Static Template</th>
+                                            <td>
+                                                <t t-call="qweb_tutorial.static_template"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Dynamic Template</th>
+                                            <td>
+                                                <t t-set="article_title"  t-valuef="Global Variable"/>
+                                                <t t-call="qweb_tutorial.dynamic_template"/>
+                                                <br/>
+
+                                                <t t-call="qweb_tutorial.dynamic_template">
+                                                    <t t-set="article_title"  t-valuef="Scoped Variable"/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Passing Children Elements</th>
+                                            <td>
+                                                <t t-call="qweb_tutorial.dynamic_template">
+                                                    <t t-set="article_title"  t-valuef="Scoped Variable"/>
+                                                    <p>
+                                                        This is a content as a children elements.<br/>
+                                                        <small>Date: November 2023</small>
+                                                    </p>
+
+                                                    <t t-call="qweb_tutorial.static_template"/>
+                                                    <br/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Mimic OWL Slots</th>
+                                            <td>
+                                                <t t-call="qweb_tutorial.slots_template">
+                                                    <t t-set="article_body">
+                                                        <p>
+                                                            This is a content as a children elements.<br/>
+                                                            <small>Date: November 2023</small>
+                                                        </p>
+
+                                                        <t t-call="qweb_tutorial.static_template"/>
+                                                        <br/>
+                                                    </t>
+
+                                                    <t t-set="article_buttons">
+                                                        <button class="btn btn-sm btn-primary">Learn More</button>
+                                                        <button class="btn btn-sm btn-primary">Learn More</button>
+                                                    </t>
+
+                                                    <t t-set="article_title">
+                                                        <h3>Children Elements</h3>
+                                                    </t>
+
+                                                    <p class="text-warning">Any default content</p>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Security -->
+                            <div class="tab-pane fade show active" id="security-tab-pane" role="tabpanel"
+                                 aria-labelledby="security-tab" tabindex="0">
+                                <h3 class="py-3">Security</h3>
+                                <table class="table table-striped table-sm border">
+                                    <tbody>
+                                        <tr>
+                                            <th>Using Groups</th>
+                                            <td>
+                                                <div t-groups="base.group_system" class="alert alert-danger">
+                                                    <h4>For Administrator Only</h4>
+                                                </div>
+                                                <div>
+                                                    For Public User
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Using Escape</th>
+                                            <td>
+                                                <t t-raw="html_escape"/>
+                                                <t t-raw="html_sanitize"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Using Markup</th>
+                                            <td>
+                                                <t t-out="markup"/>
+                                                <br/>
+                                                <t t-out="str(markup)"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="static_template" name="Static Template">
+        <div class="alert alert-info">
+            This is a static template.
+        </div>
+    </template>
+    <template id="dynamic_template" name="Dynamic Template">
+        <article class="bg-light p-3 border shadow">
+            <h3 t-out="article_title"/>
+            <p class="text-muted"><small>This is a dynamic template</small></p>
+            <t t-out="0"/>
+            <button class="btn btn-sm btn-primary">Learn More</button>
+        </article>
+    </template>
+    <template id="slots_template" name="Slots Template">
+        <article class="bg-light p-3 border shadow">
+            <t t-out="article_title"/>
+            <t t-out="article_body"/>
+            <t t-out="0"/>
+            <t t-out="article_buttons"/>
+        </article>
+    </template>
+</odoo>
