@@ -1,8 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="qweb_tutorials.someTemplate">
+    <t t-name="qweb_tutorials.jsTemplate">
         <div class="alert alert-primary">
-            <h3>This is the main template</h3>
+            <h3>Rendered from public widget.</h3>
+        </div>
+    </t>
+
+    <t t-name="qweb_tutorials.templateWithVariables">
+        <div>
+            <ul>
+                <li>String: <span t-out="string"/></li>
+                <t t-set="some_date" t-value="new Date()"/>
+                <li>Javascript Object: <span t-out="some_date.toLocaleString()"/></li>
+                <li>Array:
+                    <ul>
+                        <li t-foreach="array" t-as="el" t-key="el">
+                            <span t-out="el"/>
+                        </li>
+                    </ul>
+                </li>
+                <li>Models:
+                    <ul>
+                        <li t-foreach="model" t-as="el" t-key="el.id">
+                            <span t-out="el.name"/>
+                        </li>
+                    </ul>
+                </li>
+                <li>Attributes:
+                    <a t-attf-href="mailto:{{ email }}"><span t-out="email"/></a>
+                </li>
+            </ul>
+        </div>
+    </t>
+
+    <t t-name="qweb_tutorials.mainTemplate">
+        <div class="alert alert-primary">
+            <h3>This is the main template.</h3>
+        </div>
+    </t>
+
+    <t t-inherit="qweb_tutorials.mainTemplate" t-inherit-mode="extension">
+        <xpath expr="div" position="inside">
+            <button class="btn btn-info">Submit</button>
+        </xpath>
+    </t>
+    <t t-name="qweb_tutorials.mainTemplatePrimary" t-inherit="qweb_tutorials.mainTemplate" t-inherit-mode="primary">
+        <xpath expr="div" position="inside">
+            <button class="btn btn-info ms-2">Close</button>
+        </xpath>
+    </t>
+
+    <t t-name="qweb_tutorials.subTemplate">
+        <div id="wrapper">
+            <header>
+                <div class="alert alert-info">Header</div>
+            </header>
+            <main>
+                <t t-call="qweb_tutorials.mainTemplate"/>
+            </main>
+            <footer>
+                <div class="alert alert-info">Footer</div>
+            </footer>
+        </div>
+    </t>
+
+    <t t-name="qweb_tutorials.templateWithEvents">
+        <div class="alert alert-primary">
+            <h3>Template with events</h3>
+            <p>Counter <span id="counter">0</span></p>
+            <button class="btn btn-info">Increase Counter</button>
         </div>
     </t>
 </templates>

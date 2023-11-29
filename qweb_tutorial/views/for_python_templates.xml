@@ -28,9 +28,27 @@
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="security-tab" data-bs-toggle="tab"
+                                <button class="nav-link" id="security-tab" data-bs-toggle="tab"
                                         data-bs-target="#security-tab-pane" type="button" role="tab"
                                         aria-controls="security-tab-pane" aria-selected="true">Security
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="cache-tab" data-bs-toggle="tab"
+                                        data-bs-target="#cache-tab-pane" type="button" role="tab"
+                                        aria-controls="cache-tab-pane" aria-selected="true">Cache/Nocache
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="inheritance-tab" data-bs-toggle="tab"
+                                        data-bs-target="#inheritance-tab-pane" type="button" role="tab"
+                                        aria-controls="inheritance-tab-pane" aria-selected="true">Inheritance
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="javascript-tab" data-bs-toggle="tab"
+                                        data-bs-target="#javascript-tab-pane" type="button" role="tab"
+                                        aria-controls="javascript-tab-pane" aria-selected="true">Javascript
                                 </button>
                             </li>
                         </ul>
@@ -221,7 +239,7 @@
                                                         <span class="text-success" t-if="number_first">First Element</span>
                                                         <span class="text-success" t-if="number_last">Last Element </span>
                                                         <span t-if="number_odd">Odd Element</span>
-                                                        <span class="text-muted" t-if="number_even">Odd Element</span>
+                                                        <span class="text-muted" t-if="number_even">Even Element</span>
                                                         <t t-set="list_length" t-value="number_size"/>
                                                     </li>
                                                 </ul>
@@ -381,7 +399,7 @@
                             </div>
 
                             <!-- Security -->
-                            <div class="tab-pane fade show active" id="security-tab-pane" role="tabpanel"
+                            <div class="tab-pane fade show" id="security-tab-pane" role="tabpanel"
                                  aria-labelledby="security-tab" tabindex="0">
                                 <h3 class="py-3">Security</h3>
                                 <table class="table table-striped table-sm border">
@@ -415,11 +433,160 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            <!-- Cache/Nocache -->
+                            <div class="tab-pane fade show" id="cache-tab-pane" role="tabpanel"
+                                 aria-labelledby="cache-tab" tabindex="0">
+                                <h3 class="py-3">Cache/Nocache</h3>
+                                <table class="table table-striped table-sm border">
+                                    <tbody>
+                                        <tr>
+                                            <th>Models</th>
+                                            <td>
+                                                <h4>Sale Orders</h4>
+                                                <ul>
+                                                    <t t-foreach="model" t-as="order">
+                                                        <li t-cache="order,order.partner_id">
+                                                            <strong t-out="order.name"/>
+                                                            <span class="badge bg-secondary" t-out="order.state"/>
+                                                            <small t-out="order.partner_id.name"/>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Boolean</th>
+                                            <td t-cache="'cache this element' if not request.session.uid else False">
+                                                <h4>Sale Order Count <span class="badge bg-success" t-out="len(model)"/></h4>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nocache</th>
+                                            <td>
+                                                <t t-set="template_variable" t-value="10"/>
+                                                <div t-cache="any_value">
+                                                    <h4>Sale Order Count
+                                                        <span t-nocache="add any text"
+                                                              class="badge bg-success" t-out="len(model)"/>
+                                                    </h4>
+                                                    <p t-nocache="">Template Variable <span t-out="template_variable"/></p>
+                                                    <t t-set="template_variable" t-value="1000"/>
+
+                                                    <p t-nocache="" t-nocache-cached_template_variable="template_variable">
+                                                        Primitive Values:
+                                                        <span t-out="cached_template_variable"/>
+                                                        <strong t-out="cached_template_variable + 5"/>
+                                                    </p>
+                                                </div>
+
+                                                <p><b>Template Variable <span t-out="template_variable"/></b></p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Inheritance -->
+                            <div class="tab-pane fade show" id="inheritance-tab-pane" role="tabpanel"
+                                 aria-labelledby="inheritance-tab" tabindex="0">
+                                <h3 class="py-3">Inheritance</h3>
+                                <table class="table table-striped table-sm border">
+                                    <tbody>
+                                        <tr>
+                                            <th>Main Template</th>
+                                            <td>
+                                                <t t-call="qweb_tutorial.main_template"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Extending Main Template</th>
+                                            <td>
+                                                <t t-call="qweb_tutorial.main_template_inherited"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Main Template Child</th>
+                                            <td>
+                                                <t t-call="qweb_tutorial.main_template_child"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Javascript -->
+                            <div class="tab-pane fade show active" id="javascript-tab-pane" role="tabpanel"
+                                 aria-labelledby="javascript-tab" tabindex="0">
+                                <h3 class="py-3">Javascript</h3>
+                                <table class="table table-striped table-sm border">
+                                    <tbody>
+                                        <tr>
+                                            <th>Render template from public widget</th>
+                                            <td><div class="js_template"/></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Date Output, Variables, Looping</th>
+                                            <td><div class="js_template_with_variables"/></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Template Inheritance</th>
+                                            <td>
+                                                <p>Template Extension</p>
+                                                <div class="js_template_extension"/>
+                                                <p>Child Template</p>
+                                                <div class="js_template_primary"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Sub-Template</th>
+                                            <td><div class="js_sub_template"/></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Template with events</th>
+                                            <td>
+                                                <div class="js_template_with_events"/>
+
+                                                <div class="alert alert-primary" id="betterForSeo">
+                                                    <h3>Better for SEO</h3>
+                                                    <p>Counter <span id="counter">0</span></p>
+                                                    <button class="btn btn-info">Increase Counter</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </t>
+    </template>
+
+    <template id="main_template" name="Main Template">
+        <div class="alert alert-info">
+            <h3>This is the main template.</h3>
+        </div>
+    </template>
+
+    <template id="main_template_inherited" inherit_id="main_template" name="Extension Template">
+        <xpath expr="div/h3" position="inside">
+            <small>Adding new element inside title.</small>
+        </xpath>
+        <xpath expr="div/h3" position="before">
+            <p>Adding new element before title.</p>
+        </xpath>
+        <xpath expr="//h3" position="after">
+            <p>Adding new element after title.</p>
+        </xpath>
+    </template>
+
+    <template id="main_template_child" inherit_id="main_template" name="Child Template" primary="True">
+        <xpath expr="div" position="attributes">
+            <attribute name="class" add="alert-success" remove="alert-info" separator=" "/>
+            <attribute name="style">border: 1px solid red;</attribute>
+        </xpath>
     </template>
 
     <template id="static_template" name="Static Template">
