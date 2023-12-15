@@ -33,3 +33,14 @@ class QwebTutorials(http.Controller):
                       % 'Added by attacker <script>alert("Do something!!")</script>',
         }
         return http.request.render("qweb_tutorial.somePythonTemplate", data)
+
+    @http.route('/qweb-tutorials/form', type='json', auth='public')
+    def qweb_tutorials_form(self, **kw):
+        print(kw)
+        # CRUD functionalities
+
+        return {"status": 1}
+
+    @http.route('/qweb-tutorials/owl', type='http', auth='public')
+    def qweb_tutorials_owl(self):
+        return http.request.render("qweb_tutorial.my_owl_app")

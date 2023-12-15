@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <t t-name="qweb_tutorials.MyOwlApp">
+        <MainComponentsContainer/>
+        <div class="container py-5">
+            <h2>OWL App</h2>
+            <br/>
+            <div class="d-flex align-items-center justify-content-between">
+                <h4>Partners</h4>
+                <form class="d-flex align-items-center" t-on-submit.prevent="newPartner">
+                    <input class="form-control me-2" type="text" t-model="state.name"/>
+                    <button class="btn btn-success">Submit</button>
+                </form>
+            </div>
+            <br/>
+            <table class="table table-striped border">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="state.partners" t-as="partner" t-key="partner.id">
+                        <tr>
+                            <td><span t-out="partner.id"/></td>
+                            <td><span t-out="partner.name"/></td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</templates>

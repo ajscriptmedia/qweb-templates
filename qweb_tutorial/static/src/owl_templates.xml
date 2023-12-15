@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <t t-name="qweb_tutorials.owl_main_component">
+        <div class="p-4 border">
+            <h3>This is rendered using OWL</h3>
+            <button class="btn btn-primary" t-on-click="increaseCounter">
+                Counter: <span t-out="state.counter"/>
+            </button>
+
+            <hr/>
+            <p>Date: <span t-out="date"/></p>
+            <hr/>
+            <ul>
+                <li t-foreach="someList" t-as="l" t-key="l">
+                    <span t-out="l"/>
+                </li>
+            </ul>
+
+            <hr/>
+            <OwlSubComponent>
+                <t t-slot="title">
+                    <h2>Rendered using slot</h2>
+                </t>
+                <t t-slot="date_author">
+                    <div>
+                        <t t-set="article_date" t-value="new Date()"/>
+                        <small t-out="article_date.toLocaleString()"/> |
+                        <small>AJScript Media</small>
+                    </div>
+                </t>
+                <hr/>
+                <p>Add any content here.</p>
+                <button class="btn btn-primary">Learn more</button>
+            </OwlSubComponent>
+            <OwlSubComponentChild>
+                <t t-slot="title">
+                    <h2>Rendered using slot</h2>
+                </t>
+                <t t-slot="date_author">
+                    <div>
+                        <t t-set="article_date" t-value="new Date()"/>
+                        <small t-out="article_date.toLocaleString()"/> |
+                        <small>AJScript Media</small>
+                    </div>
+                </t>
+                <hr/>
+                <p>Add any content here.</p>
+                <button class="btn btn-primary">Learn more</button>
+            </OwlSubComponentChild>
+        </div>
+    </t>
+
+    <t t-name="qweb_tutorials.owl_sub_component">
+        <div>
+            <h4>This is an OWL subcomponent template.</h4>
+            <article class="alert alert-info">
+                <t t-set-slot="title"/>
+                <t t-set-slot="date_author"/>
+                <t t-slot="default"/>
+            </article>
+        </div>
+    </t>
+
+    <t t-inherit="qweb_tutorials.owl_sub_component" t-inherit-mode="extension">
+        <xpath expr="//article" position="after">
+            <p>Added using extension inheritance</p>
+        </xpath>
+    </t>
+
+    <t t-name="qweb_tutorials.owl_sub_component_child" t-inherit="qweb_tutorials.owl_sub_component" t-inherit-mode="primary">
+        <xpath expr="//article" position="attributes">
+            <attribute name="class" remove="alert-info" add="alert-primary" separator=" "/>
+        </xpath>
+    </t>
+
+    <t t-name="qweb_tutorials.with_backend_data">
+        <div class="p-4 border">
+            <h2>Sale Orders</h2>
+            <hr/>
+            <ul>
+                <li t-foreach="state.orders" t-as="order" t-key="order.id">
+                    <strong t-out="order.name"/> - <span t-out="order.date_order"/>
+                </li>
+            </ul>
+
+            <div class="alert alert-info">
+                <h3>Form Submission</h3>
+                <form t-on-submit="(e)=>this.submitForm(e)">
+                    <input type="text" class="form-control mb-3" t-model="state.txtInput"/>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </t>
+</templates>
